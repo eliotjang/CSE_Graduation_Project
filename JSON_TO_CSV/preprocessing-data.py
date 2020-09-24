@@ -4,19 +4,21 @@ import json
 import csv
 from io import open
 
-init_counter = 1 # 초기화할 생각이 있으면 0으로 설정.
+# 초기화한 이후에는 init_counter를 1로 설정해야함.
+init_counter = 1
 tmp_x = 0.0
 tmp_y = 0.0
 tmp_z = 0.0
 contain_x = []
 contain_y = []
 contain_z = []
+# json파일에 있는 실험자의 이름을 기입해야함.
 name = "sample(C)"
 
 def AppendArr(file_path_name):
     with open(file_path_name, "r", encoding='UTF8') as json_file:
         json_data = json.load(json_file)
-
+        # 정상보행은 name 뒤 '1'을 추가, 노인체험복은 '2'를 추가해야함.
         for x in json_data['RecordAccelerometer'][name + '2']['x'].values():
             contain_x.append(float(x))
         for y in json_data['RecordAccelerometer'][name + '2']['y'].values():
@@ -38,7 +40,7 @@ with open('전처리0924.csv', 'a', newline='') as f:
 
     if init_counter == 0:
         thewriter.writeheader()
-
+    # 정상보행은 label을 '0'으로 설정, 노인체험복은 '1'로 설정해야함.
     thewriter.writerow({'user' : name, 'x' : contain_x, 'y' : contain_y, 'z' : contain_z, 'label(elder)' : '1'})
 
 f.close()
