@@ -67,13 +67,14 @@ def AppendElder(file_path_name):
     json_file.close()
 
 # json파일에 있는 실험자의 닉네임을 기입해야함.
-name = "sample(T)"
+name = "sample(X)"
 
 # json 파일이름의 알파벳 변경 필요
-AppendNormal("walkingresearch-b7378-sample(T)1-export.json")
-AppendElder("walkingresearch-b7378-sample(T)2-export.json")
+AppendNormal("walkingresearch-b7378-sample(X)1-export.json")
+AppendElder("walkingresearch-b7378-sample(X)2-export.json")
 
-with open('전처리1007-testing.csv', 'a', newline='') as f:
+# 날짜에 맞는 파일이름 설정 필요
+with open('전처리1011-testing.csv', 'a', newline='') as f:
     fieldnames = ['user', 'x', 'y', 'z', 'label(elder)']
     thewriter = csv.DictWriter(f, fieldnames=fieldnames)
 
