@@ -24,7 +24,7 @@ elder_flat_end_index = 8000
 # 알파벳 D전까지는 계속 수정해야함
 # name = 'sample(C)'
 
-def AppendNormal(file_path_name):
+def append_normal(file_path_name):
     with open(file_path_name, "r", encoding='UTF8') as json_file:
         json_data = json.load(json_file)
         index_count = 0
@@ -45,7 +45,7 @@ def AppendNormal(file_path_name):
             index_count += 1
     json_file.close()
 
-def AppendElder(file_path_name):
+def append_elder(file_path_name):
     with open(file_path_name, "r", encoding='UTF8') as json_file:
         json_data = json.load(json_file)
         index_count = 0
@@ -66,23 +66,27 @@ def AppendElder(file_path_name):
             index_count += 1
     json_file.close()
 
+'''알파벳 AI이부후터는 정상보행과 노인체험복의 파일명이 같으므로 한번한번씩 번갈아가면서 실행시켜야함'''
 # json파일에 있는 실험자의 닉네임을 기입해야함.
-name = "sample(X)"
+name = "sample(AK)"
 
+check_old = 'label(elder)'
 # json 파일이름의 알파벳 변경 필요
-AppendNormal("walkingresearch-b7378-sample(X)1-export.json")
-AppendElder("walkingresearch-b7378-sample(X)2-export.json")
+# 알파벳 AI이후부터는 정상보행인지 노인체험복인지에 따라 주석처리 필요
+#append_normal("walkingresearch2-sample(AK)-export.json")
+append_elder("walkingresearch2-sample(AK)-export.json")
 
 # 날짜에 맞는 파일이름 설정 필요
-with open('전처리1011-testing.csv', 'a', newline='') as f:
-    fieldnames = ['user', 'x', 'y', 'z', 'label(elder)']
+with open('전처리1015-testing.csv', 'a', newline='') as f:
+    fieldnames = ['user', 'x', 'y', 'z', check_old]
     thewriter = csv.DictWriter(f, fieldnames=fieldnames)
 
     if init_counter == 0:
         thewriter.writeheader()
     
     # 알파벳 D전까지는 정상인지 노인인지에 따라 주석처리 필요
-    thewriter.writerow({'user' : name, 'x' : contain_x1, 'y' : contain_y1, 'z' : contain_z1, 'label(elder)' : '0'})
-    thewriter.writerow({'user' : name, 'x' : contain_x2, 'y' : contain_y2, 'z' : contain_z2, 'label(elder)' : '1'})
+    # 알파벳 AI이후부터는 정상인지 노인인지에 따라 주석처리 필요
+#    thewriter.writerow({'user' : name, 'x' : contain_x1, 'y' : contain_y1, 'z' : contain_z1, check_old : '0'})
+    thewriter.writerow({'user' : name, 'x' : contain_x2, 'y' : contain_y2, 'z' : contain_z2, check_old : '1'})
 
 f.close()
