@@ -1,4 +1,5 @@
-# 2020-10-07 ~ 
+# Edit by Eliot Jang
+# 2020-10-07 ~ 2020-10-19
 import numpy as numpy
 import json
 import csv
@@ -68,16 +69,16 @@ def append_elder(file_path_name):
 
 '''알파벳 AI이부후터는 정상보행과 노인체험복의 파일명이 같으므로 한번한번씩 번갈아가면서 실행시켜야함'''
 # json파일에 있는 실험자의 닉네임을 기입해야함.
-name = "sample(AK)"
+name = "sample(AS)"
 
 check_old = 'label(elder)'
 # json 파일이름의 알파벳 변경 필요
 # 알파벳 AI이후부터는 정상보행인지 노인체험복인지에 따라 주석처리 필요
-#append_normal("walkingresearch2-sample(AK)-export.json")
-append_elder("walkingresearch2-sample(AK)-export.json")
+append_normal("1walkingresearch2-sample(AS)-export.json")
+append_elder("2walkingresearch2-sample(AS)-export.json")
 
 # 날짜에 맞는 파일이름 설정 필요
-with open('전처리1015-testing.csv', 'a', newline='') as f:
+with open('전처리1019-testing.csv', 'a', newline='') as f:
     fieldnames = ['user', 'x', 'y', 'z', check_old]
     thewriter = csv.DictWriter(f, fieldnames=fieldnames)
 
@@ -86,7 +87,7 @@ with open('전처리1015-testing.csv', 'a', newline='') as f:
     
     # 알파벳 D전까지는 정상인지 노인인지에 따라 주석처리 필요
     # 알파벳 AI이후부터는 정상인지 노인인지에 따라 주석처리 필요
-#    thewriter.writerow({'user' : name, 'x' : contain_x1, 'y' : contain_y1, 'z' : contain_z1, check_old : '0'})
+    thewriter.writerow({'user' : name, 'x' : contain_x1, 'y' : contain_y1, 'z' : contain_z1, check_old : '0'})
     thewriter.writerow({'user' : name, 'x' : contain_x2, 'y' : contain_y2, 'z' : contain_z2, check_old : '1'})
 
 f.close()
