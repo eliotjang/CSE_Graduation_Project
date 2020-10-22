@@ -27,7 +27,7 @@ elder_flat_start_index = 4000
 elder_flat_end_index = 8000
 
 check_old = 'label(elder)'
-file_name = '평지데이터전처리-1021.csv'
+file_name = '평지데이터-리스트-전처리-1021.csv'
 
 def insert_to_dataframe(arr, str, elder_flag):
     series = pd.Series(arr)
@@ -91,15 +91,15 @@ def append_normal(file_path_name, subject_index):
                     normal_z.append(float(z))
                 index_count += 1  
         
-        insert_to_dataframe(normal_x, 'x', 0)
-        insert_to_dataframe(normal_y, 'y', 0)
-        insert_to_dataframe(normal_z, 'z', 0)
+        #insert_to_dataframe(normal_x, 'x', 0)
+        #insert_to_dataframe(normal_y, 'y', 0)
+        #insert_to_dataframe(normal_z, 'z', 0)
     json_file.close()
 
     with open(file_name, 'a', newline='') as f:
         fieldnames = ['user', 'x', 'y', 'z', check_old]
         thewriter = csv.DictWriter(f, fieldnames=fieldnames)
-        thewriter.writerow({'user' : 'sample(' + subject[subject_index] + ')', 'x' : normal_x_dataframe, 'y' : normal_y_dataframe, 'z' : normal_z_dataframe, check_old : '0'})
+        thewriter.writerow({'user' : 'sample(' + subject[subject_index] + ')', 'x' : normal_x, 'y' : normal_y, 'z' : normal_z, check_old : '0'})
     f.close()    
 
 def append_elder(file_path_name, subject_index):
@@ -149,15 +149,15 @@ def append_elder(file_path_name, subject_index):
                     elder_z.append(float(z))
                 index_count += 1
         
-        insert_to_dataframe(elder_x, 'x', 1)
-        insert_to_dataframe(elder_y, 'y', 1)
-        insert_to_dataframe(elder_z, 'z', 1)
+        #insert_to_dataframe(elder_x, 'x', 1)
+        #insert_to_dataframe(elder_y, 'y', 1)
+        #insert_to_dataframe(elder_z, 'z', 1)
     json_file.close()
 
     with open(file_name, 'a', newline='') as f:
         fieldnames = ['user', 'x', 'y', 'z', check_old]
         thewriter = csv.DictWriter(f, fieldnames=fieldnames)
-        thewriter.writerow({'user' : 'sample(' + subject[subject_index] + ')', 'x' : elder_x_dataframe, 'y' : elder_y_dataframe, 'z' : elder_z_dataframe, check_old : '1'})
+        thewriter.writerow({'user' : 'sample(' + subject[subject_index] + ')', 'x' : elder_x, 'y' : elder_y, 'z' : elder_z, check_old : '1'})
     f.close() 
 
 def write_header():
