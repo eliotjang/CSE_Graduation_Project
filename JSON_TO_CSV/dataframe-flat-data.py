@@ -26,8 +26,13 @@ normal_flat_end_index = 6500
 elder_flat_start_index = 4000
 elder_flat_end_index = 8000
 
+normal_flat_start_index2 = 2500 + 1300
+normal_flat_end_index2 = 6500 + 1300
+elder_flat_start_index2 = 4000 + 2000
+elder_flat_end_index2 = 8000 + 2000
+
 check_old = 'label(elder)'
-file_name = '평지데이터-리스트-전처리-1021.csv'
+file_name = '평지데이터-전처리-1024.csv'
 
 def insert_to_dataframe(arr, str, elder_flag):
     series = pd.Series(arr)
@@ -160,6 +165,125 @@ def append_elder(file_path_name, subject_index):
         thewriter.writerow({'user' : 'sample(' + subject[subject_index] + ')', 'x' : elder_x, 'y' : elder_y, 'z' : elder_z, check_old : '1'})
     f.close() 
 
+
+def append_normal_second_data(file_path_name, subject_index):
+    normal_x = []
+    normal_y = []
+    normal_z = []
+    with open(file_path_name, "r", encoding='UTF8') as json_file:
+        json_data = json.load(json_file)
+        
+        if subject_index < 3:
+            if subject_index == 0:
+                name = 'sample(A)'
+            elif subject_index == 1:
+                name = 'sample(B)'
+            else:
+                name = 'Sample(C)'
+            index_count = 0
+            for x in json_data['RecordAccelerometer'][name + '1']['x'].values():
+                if (normal_flat_start_index2 <= index_count < normal_flat_end_index2):
+                    normal_x.append(float(x))
+                index_count += 1
+            index_count = 0
+            for y in json_data['RecordAccelerometer'][name + '1']['y'].values():
+                if (normal_flat_start_index2 <= index_count < normal_flat_end_index2):
+                    normal_y.append(float(y))
+                index_count += 1
+            index_count = 0
+            for z in json_data['RecordAccelerometer'][name + '1']['z'].values():
+                if (normal_flat_start_index2 <= index_count < normal_flat_end_index2):
+                    normal_z.append(float(z))  
+                index_count += 1          
+
+        else:
+            index_count = 0
+            for x in json_data['x'].values():
+                if (normal_flat_start_index2 <= index_count < normal_flat_end_index2):
+                    normal_x.append(float(x))
+                index_count += 1  
+            index_count = 0
+            for y in json_data['y'].values():
+                if (normal_flat_start_index2 <= index_count < normal_flat_end_index2):
+                    normal_y.append(float(y))
+                index_count += 1  
+            index_count = 0
+            for z in json_data['z'].values():
+                if (normal_flat_start_index2 <= index_count < normal_flat_end_index2):
+                    normal_z.append(float(z))
+                index_count += 1
+        
+        #insert_to_dataframe(normal_x, 'x', 0)
+        #insert_to_dataframe(normal_y, 'y', 0)
+        #insert_to_dataframe(normal_z, 'z', 0)
+    json_file.close()
+
+    with open(file_name, 'a', newline='') as f:
+        fieldnames = ['user', 'x', 'y', 'z', check_old]
+        thewriter = csv.DictWriter(f, fieldnames=fieldnames)
+        thewriter.writerow({'user' : 'sample(' + subject[subject_index] + ')', 'x' : normal_x, 'y' : normal_y, 'z' : normal_z, check_old : '0'})
+    f.close()    
+
+def append_elder_second_data(file_path_name, subject_index):
+    elder_x = []
+    elder_y = []
+    elder_z = []    
+    with open(file_path_name, "r", encoding='UTF8') as json_file:
+        json_data = json.load(json_file)
+
+        if subject_index < 3:
+            if subject_index == 0:
+                name = 'sample(A)'
+            elif subject_index == 1:
+                name = 'sample(B)'
+            else:
+                name = 'sample(C)'
+            index_count = 0
+            for x in json_data['RecordAccelerometer'][name + '2']['x'].values():
+                if(elder_flat_start_index2 <= index_count < elder_flat_end_index2):
+                    elder_x.append(float(x))
+                index_count += 1
+            index_count = 0
+            for y in json_data['RecordAccelerometer'][name + '2']['y'].values():
+                if(elder_flat_start_index2 <= index_count < elder_flat_end_index2):
+                    elder_y.append(float(y))
+                index_count += 1
+            index_count = 0
+            for z in json_data['RecordAccelerometer'][name + '2']['z'].values():
+                if(elder_flat_start_index2 <= index_count < elder_flat_end_index2):
+                    elder_z.append(float(z))   
+                index_count += 1
+
+        else:
+            index_count = 0
+            for x in json_data['x'].values():
+                if(elder_flat_start_index2 <= index_count < elder_flat_end_index2):
+                    elder_x.append(float(x))
+                index_count += 1
+            index_count = 0
+            for y in json_data['y'].values():
+                if(elder_flat_start_index2 <= index_count < elder_flat_end_index2):
+                    elder_y.append(float(y))
+                index_count += 1
+            index_count = 0
+            for z in json_data['z'].values():
+                if(elder_flat_start_index2 <= index_count < elder_flat_end_index2):
+                    elder_z.append(float(z))
+                index_count += 1
+        
+        #insert_to_dataframe(elder_x, 'x', 1)
+        #insert_to_dataframe(elder_y, 'y', 1)
+        #insert_to_dataframe(elder_z, 'z', 1)
+    json_file.close()
+
+    with open(file_name, 'a', newline='') as f:
+        fieldnames = ['user', 'x', 'y', 'z', check_old]
+        thewriter = csv.DictWriter(f, fieldnames=fieldnames)
+        thewriter.writerow({'user' : 'sample(' + subject[subject_index] + ')', 'x' : elder_x, 'y' : elder_y, 'z' : elder_z, check_old : '1'})
+    f.close() 
+
+
+
 def write_header():
     with open(file_name, 'w', newline='') as f:
         fieldnames = ['user', 'x', 'y', 'z', check_old]
@@ -168,6 +292,7 @@ def write_header():
     f.close() 
 
 write_header()
+# 첫번째 평지데이터
 append_normal('a1.json',0)
 append_elder('a2.json',0)
 append_normal('b1.json',1)
@@ -258,3 +383,95 @@ append_normal('ar1.json',43)
 append_elder('ar2.json',43)
 append_normal('as1.json',44)
 append_elder('as2.json',44)
+
+# 두번째 평지 데이터
+append_normal_second_data('a1.json',0)
+append_elder_second_data('a2.json',0)
+append_normal_second_data('b1.json',1)
+append_elder_second_data('b2.json',1)
+append_normal_second_data('c1-1.json',2)
+append_elder_second_data('c2-1.json',2)
+append_normal_second_data('d1.json',3)
+append_elder_second_data('d2.json',3)
+append_normal_second_data('e1.json',4)
+append_elder_second_data('e2-1.json',4)
+append_normal_second_data('f1.json', 5)
+append_elder_second_data('f2.json', 5)
+append_normal_second_data('g1.json',6)
+append_elder_second_data('g2.json',6)
+append_normal_second_data('h1.json',7)
+append_elder_second_data('h2.json',7)
+append_normal_second_data('i1.json',8)
+append_elder_second_data('i2.json',8)
+append_normal_second_data('j1.json',9)
+append_elder_second_data('j2.json',9)
+append_normal_second_data('k1.json',10)
+append_elder_second_data('k2.json',10)
+append_normal_second_data('l1.json',11)
+append_elder_second_data('l2.json',11)
+append_normal_second_data('m1-1.json',12)
+append_elder_second_data('m2.json',12)
+append_normal_second_data('n1.json',13)
+append_elder_second_data('n2-1.json',13)
+append_normal_second_data('o1.json',14)
+append_elder_second_data('o2.json',14)
+append_normal_second_data('p1.json',15)
+append_elder_second_data('p2.json',15)
+append_normal_second_data('q1.json',16)
+append_elder_second_data('q2.json',16)
+append_normal_second_data('r1.json',17)
+append_elder_second_data('r2.json',17)
+append_normal_second_data('s1.json',18)
+append_elder_second_data('s2.json',18)
+append_normal_second_data('t1.json',19)
+append_elder_second_data('t2.json',19)
+append_normal_second_data('u1.json',20)
+append_elder_second_data('u2.json',20)
+append_normal_second_data('v1.json',21)
+append_elder_second_data('v2.json',21)
+append_normal_second_data('w1.json',22)
+append_elder_second_data('w2.json',22)
+append_normal_second_data('x1.json',23)
+append_elder_second_data('x2.json',23)
+append_normal_second_data('y1.json',24)
+append_elder_second_data('y2.json',24)
+append_normal_second_data('z1-1.json',25)
+append_elder_second_data('z2.json',25)
+
+append_normal_second_data('aa1.json',26)
+append_normal_second_data('ab1-1.json',27)
+append_elder_second_data('ab2-1.json',27)
+append_normal_second_data('ac1.json',28)
+append_elder_second_data('ac2.json',28)
+append_normal_second_data('ad1.json',29)
+append_elder_second_data('ad2.json',29)
+append_normal_second_data('ae1.json',30)
+append_elder_second_data('ae2-1.json',30)
+append_normal_second_data('af1-1.json',31)
+append_elder_second_data('af2.json',31)
+append_normal_second_data('ag1.json',32)
+append_elder_second_data('ag2.json',32)
+append_normal_second_data('ah1-1.json',33)
+append_elder_second_data('ah2.json',33)
+append_normal_second_data('ai1.json',34)
+append_elder_second_data('ai2.json',34)
+append_normal_second_data('aj1.json',35)
+append_elder_second_data('aj2.json',35)
+append_normal_second_data('ak1.json',36)
+append_elder_second_data('ak2.json',36)
+append_normal_second_data('al1-1.json',37)
+append_elder_second_data('al2.json',37)
+append_normal_second_data('am1-1.json',38)
+append_elder_second_data('am2.json',38)
+append_normal_second_data('an1.json',39)
+append_elder_second_data('an2.json',39)
+append_normal_second_data('ao1.json',40)
+append_elder_second_data('ao2.json',40)
+append_normal_second_data('ap1.json',41)
+append_elder_second_data('ap2.json',41)
+append_normal_second_data('aq1.json',42)
+append_elder_second_data('aq2.json',42)
+append_normal_second_data('ar1.json',43)
+append_elder_second_data('ar2.json',43)
+append_normal_second_data('as1.json',44)
+append_elder_second_data('as2.json',44)
